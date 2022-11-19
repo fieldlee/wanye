@@ -1,0 +1,43 @@
+[package]
+name = "wanye"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+axum = {version="0.5.17",features=["multipart","ws"]}
+tokio = {version = "1.21.2",features = ["full"] }
+tower = "0.4.13"
+tower-http = { version = "0.3.4",features=["cors"] }
+serde = "1.0.147"
+serde_json = "1.0.87"
+serde_yaml = "0.9.14"
+chrono = "0.4.23"  #time and date
+lazy_static ="1.4.0"
+thread_local="1.1.4"
+rbson = "2.0"
+rbatis = { version = "3.1.16", default-features = false, features = ["mysql", "runtime-async-std-rustls"] }
+#对象存储
+state = { version = "0.5.3", features = ["tls"] }
+#缓存 支持redis 本地缓存
+cached = {version="0.40.0",features = ["redis_store","redis_async_std","async"]}
+#log
+log = "0.4"
+fast_log = { version="1.5.1", features = ["lz4","zip", "gzip"]}
+#jwt
+jsonwebtoken = "7.2.0"
+#getset
+getset = "0.1.2"
+md5 = "0.7.0"
+async-trait = "0.1.58"
+validator = "0.16.0"
+validator_derive = "0.16.0"
+#captcha 图片验证码
+captcha = "0.0.9"
+#redis
+redis = { version = "0.22.1", features = ["tokio"] }
+#sqlparse sql解析器
+sqlparser = "0.15.0"
+#配置微信
+wx = { path = "./wx" }

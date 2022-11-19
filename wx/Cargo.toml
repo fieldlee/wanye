@@ -1,0 +1,30 @@
+[package]
+name = "wx"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+serde = { version = "1.0.136", features = ["derive"] }
+serde_json = "1.0.79"
+# 加解密
+rust-crypto = "0.2.36"
+rand = "0.8.5"
+byteorder = "1.4.3"
+base64 = "0.13.0"
+chrono = "0.4.19"
+lazy_static = "1.4.0"
+# reqwest
+bytes = { version = "1.1.0" }
+reqwest = { version = "0.11", default-features = false, features = ["json", "rustls-tls","blocking"] }
+indicatif = { version = "0.17.2" }
+
+serde-xml-rs = "0.6.0"
+itertools= "0.10.3"
+md5= "0.7.0"
+
+
+percent-encoding = "2.1.0"
+#缓存 支持redis 本地缓存
+cached = {version="0.39.0",features = ["async"]}
