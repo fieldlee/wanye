@@ -12,6 +12,7 @@ use log::info;
 use crate::cache::cache::CacheService;
 use crate::services::user_service::UserService;
 use crate::services::user_auth_service::UserAuthService;
+use crate::services::taobao_service::{TaobaoIndexService,TaobaoPayIndexService};
 //初始化配置信息
 pub async fn init_config() {
     let content = read_to_string("application.yaml").await.unwrap();
@@ -150,4 +151,8 @@ pub async fn init_service() {
     info!("UserService init success!");
     APPLICATION_CONTEXT.set::<UserAuthService>(UserAuthService::default());
     info!("UserAuthService init success!");
+    APPLICATION_CONTEXT.set::<TaobaoIndexService>(TaobaoIndexService::default());
+    info!("TaobaoIndexService init success!");
+    APPLICATION_CONTEXT.set::<TaobaoPayIndexService>(TaobaoPayIndexService::default());
+    info!("TaobaoPayIndexService init success!");
 }
