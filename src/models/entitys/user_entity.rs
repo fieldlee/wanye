@@ -16,6 +16,7 @@ pub struct User {
     pub pay_count: Option<f32>,
     pub login_type: Option<LoginType>,
     pub address: Option<String>,
+    pub join_code: Option<String>,
     pub expired_at:Option<DateNative>,
 }
 
@@ -31,6 +32,7 @@ impl_field_name_method!(User {
     user_type,
     pay_count,
     address,
+    join_code,
     login_type,
     expired_at,
 });

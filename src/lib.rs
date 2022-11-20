@@ -10,7 +10,8 @@ extern crate cached;
 extern crate getset;
 #[macro_use]
 extern crate rbatis;
-
+#[macro_use]
+extern crate base64;
 //配置
 pub mod config;
 //初始化

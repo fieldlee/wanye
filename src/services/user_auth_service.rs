@@ -8,9 +8,9 @@ use crate::utils::error::Error;
 use crate::utils::error::Result;
 use crate::utils::password_encoder::PasswordEncoder;
 use crate::config::config::ApplicationConfig;
-use crate::models::dto::sign_in::SignInDTO;
+use crate::models::dto::sign_in::{SignInDTO,SignInByPhoneDTO};
 use crate::models::vo::jwt::JWTToken;
-use crate::models::vo::sign_in::SignInVO;
+use crate::models::vo::sign_in::{SignInVO};
 use crate::models::StatusType;
 use rbatis::crud::CRUD;
 use rbatis::DateTimeNative;
@@ -57,6 +57,26 @@ impl Default for UserAuthService {
 }
 
 impl UserAuthService {
+    pub async fn sign_in_phone(&self, arg: &SignInByPhoneDTO) -> Result<SignInVO> {
+        /*验证码 验证*/
+        let rb = APPLICATION_CONTEXT.get::<Rbatis>();
+        let user: Option<User> = rb
+            .fetch_by_wrapper(rb.new_wrapper().eq(User::phone(), &arg.phone()))
+            .await?;
+        let user = user.ok_or_else(|| {
+            Error::from(format!(
+                "账号:{} 不存在!",
+                arg.phone().clone().unwrap_or_default()
+            ))
+        })?;
+        if !user.status.eq(&Some(StatusType::Normal)) {
+            return Err(Error::from("账户被禁用!"));
+        }
+        let sign_in_vo = self.get_user_info(&user).await?;
+        return Ok(sign_in_vo);
+    }
+
+
     pub async fn sign_in(&self, arg: &SignInDTO) -> Result<SignInVO> {
         /*验证码 验证*/
         let rb = APPLICATION_CONTEXT.get::<Rbatis>();

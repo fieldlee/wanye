@@ -17,6 +17,7 @@ pub struct UserDTO {
     user_type: Option<UserType>,
     pay_count: Option<f32>,
     address: Option<String>,
+    join_code: Option<String>,
     login_type: Option<LoginType>,
     expired_at: Option<DateNative>,
 }
@@ -36,6 +37,7 @@ impl Into<User> for UserDTO {
             expired_at: self.expired_at().clone(),
             pay_count: self.pay_count().clone(),
             address: self.address().clone(),
+            join_code: self.join_code().clone(),
             login_type: self.login_type().clone(),
         }
     }
@@ -55,6 +57,7 @@ impl From<User> for UserDTO {
             user_type: arg.user_type,
             pay_count: arg.pay_count,
             address: arg.address,
+            join_code: arg.join_code,
             login_type: arg.login_type,
             expired_at: arg.expired_at,
         }

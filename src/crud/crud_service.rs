@@ -112,6 +112,21 @@ where
         )
         .await;
     }
+
+    /**
+     * 根据id更新实体
+     */
+    async fn update_by_id_skips(&self, id: String, mut data: &Entity, skips:&[Skip]) {
+        let rb = APPLICATION_CONTEXT.get::<Rbatis>();
+        let wrapper = rb.new_wrapper().eq("id", id);
+        rb.update_by_wrapper(
+            &mut data,
+            wrapper,
+            skips,
+        )
+        .await;
+    }
+
     /**
      * 根据id查询条件查询单个值
      */
@@ -143,6 +158,17 @@ where
         let vo = Dto::from(detail);
         return Ok(vo);
     }
+
+    /**
+     * 根据joincode查询条件查询单个值
+     */
+    async fn get_by_joincode(&self, joincode: String) -> Result<Dto> {
+        let rb = APPLICATION_CONTEXT.get::<Rbatis>();
+        let wrapper = rb.new_wrapper().eq("join_code", joincode);
+        let detail: Entity = rb.fetch_by_wrapper(wrapper).await?;
+        let vo = Dto::from(detail);
+        return Ok(vo);
+    }
     /**
      * 保存实体
      */
@@ -159,7 +185,7 @@ where
             CommonField {
                 id: Some(0),
                 created_at: Some(DateTimeNative::now()),
-                updated_at: None,
+                updated_at: Some(DateTimeNative::now()),
             },
             data,
         );

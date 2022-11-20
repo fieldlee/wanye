@@ -2302,6 +2302,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "random"
+version = "0.13.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "474c42c904f04dfe2a595a02f71e1a0e5e92ffb5761cc9a4c02140b93b8dd504"
+
+[[package]]
 name = "rbatis"
 version = "3.1.16"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3678,6 +3684,7 @@ version = "0.1.0"
 dependencies = [
  "async-trait",
  "axum",
+ "base64 0.13.1",
  "cached 0.40.0",
  "captcha",
  "chrono",
@@ -3687,6 +3694,7 @@ dependencies = [
  "lazy_static",
  "log",
  "md5",
+ "random",
  "rbatis",
  "rbson",
  "redis",

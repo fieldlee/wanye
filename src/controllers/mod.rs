@@ -23,4 +23,7 @@ pub fn init_noneed_auth_router() -> Router {
     .route("/tranindex", post(get_index_value))
     .route("/tran_payindex", post(get_pay_index_value))
     .route("/check_keys", post(check_user_account))
+
+    .route("/send_sms", post(send_phone_sms))
+    .route("/login_phone", post(user_login_phone))
 }

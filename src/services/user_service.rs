@@ -3,7 +3,6 @@ use crate::models::{
     entitys::user_entity::User,
     request::UserQuery,
 };
-use crate::utils::error::Error;
 use crate::utils::error::Result;
 use rbatis::rbatis::Rbatis;
 use crate::{crud::crud_service::CrudService, APPLICATION_CONTEXT};
@@ -33,6 +32,13 @@ impl UserService {
         let user_info = self.get_by_account(account.clone()).await?;
         return Ok(user_info);
     }
+
+    //根据join查询用户
+    pub async fn get_user_by_joincode(&self, join_code: String) -> Result<UserDTO> {
+        let user_info = self.get_by_joincode(join_code.clone()).await?;
+        return Ok(user_info);
+    }
+
     //根据id删除用户
     pub async fn delete_user_by_id(&self, id: String) {
         let user_info = self.get(id.clone()).await.unwrap();
