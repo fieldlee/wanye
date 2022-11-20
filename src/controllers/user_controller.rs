@@ -9,7 +9,7 @@ use crate::services::user_auth_service::UserAuthService;
 use crate::services::user_service::UserService;
 use axum::Json;
 use crate::utils::error::Error;
-use crate::models::dto::sign_in::SignInDTO;
+use crate::models::dto::sign_in::{SignInDTO,CheckInDTO,CheckResultDTO};
 use crate::models::dto::user_dto::UserDTO;
 use validator::Validate;
 use captcha::filters::{Dots, Noise, Wave};
@@ -65,17 +65,36 @@ pub async fn user_register(Json(register): Json<UserDTO>) -> impl IntoResponse {
     return RespVO::from_result(&resut).resp_json();
 }
 
-//用户注册
-pub async fn user_update(Json(userinfo): Json<UserDTO>) -> impl IntoResponse {
+//check账号是否使用
+pub async fn check_user_account(Json(check_info): Json<CheckInDTO>) -> impl IntoResponse {
+    let user_service = APPLICATION_CONTEXT.get::<UserService>();
+    let mut check_result = CheckResultDTO::new(false, false);
+    if !check_info.account().is_none(){
+        let user = user_service.get_user_by_account(check_info.account().as_ref().unwrap().to_string()).await;
+        if user.is_ok() {
+          check_result.set_account(true);
+        }
+    }
+
+    if !check_info.phone().is_none(){
+        let user =   user_service.get_user_by_phone(check_info.phone().as_ref().unwrap().to_string()).await;
+        if user.is_ok() {
+            check_result.set_phone(true);
+          }
+    }
+
+    return RespVO::from_result(&Ok(check_result)).resp_json();
+}
+
+
+//更新用户
+pub async fn update_user_info(Json(userinfo): Json<UserDTO>) -> impl IntoResponse {
     let user_service = APPLICATION_CONTEXT.get::<UserService>();
    
     let mut m_user_info = userinfo;
     let s_id = m_user_info.id().unwrap().to_string();
     let user = user_service.get_user_by_id(s_id).await;
     if user.is_ok(){
-        if m_user_info.account().as_ref().unwrap().is_empty() {
-            m_user_info.set_account(Some(user.as_ref().unwrap().account().as_ref().unwrap().to_string()));
-        }
         if m_user_info.address().as_ref().unwrap().is_empty() {
             m_user_info.set_address(Some(user.as_ref().unwrap().address().as_ref().unwrap().to_string()));
         }
@@ -93,7 +112,6 @@ pub async fn user_update(Json(userinfo): Json<UserDTO>) -> impl IntoResponse {
     let resut = user_service.update_info(m_user_info).await;
     return RespVO::from_result(&resut).resp_json();
 }
-
 
 //captch 图片
 pub async fn captcha_png(Path(uuid): Path<String>) -> Response<Body> {
@@ -130,7 +148,6 @@ pub async fn captcha_png(Path(uuid): Path<String>) -> Response<Body> {
         .body(Body::from(png))
         .unwrap()
 }
-
 
 //captch base64
 pub async fn captcha_base64(Path(uuid): Path<String>) -> impl IntoResponse {

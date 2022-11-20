@@ -23,3 +23,29 @@ pub struct SignInDTO {
 pub struct CatpchaDTO {
     pub uuid: Option<String>,
 }
+
+#[derive(Serialize, Deserialize, Validate, Clone, Debug, Getters, Setters, Default)]
+#[getset(get = "pub", set = "pub")]
+pub struct CheckInDTO {
+    #[validate(required)]
+    #[validate(length(min = 5, message = "账号最少5个字符"))]
+    account: Option<String>,
+    #[validate(required)]
+    #[validate(length(min = 11, message = "手机号最少11个字符"))]
+    phone: Option<String>,
+}
+
+#[derive(Serialize, Deserialize, Validate, Clone, Debug, Getters, Setters, Default)]
+#[getset(get = "pub", set = "pub")]
+pub struct CheckResultDTO {
+    account: bool,
+    phone: bool,
+}
+impl CheckResultDTO{
+    pub fn new(account: bool, phone: bool) -> Self{
+        CheckResultDTO{
+            account: account,
+            phone: phone,
+        }
+    }
+}

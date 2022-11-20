@@ -122,6 +122,27 @@ where
         let vo = Dto::from(detail);
         return Ok(vo);
     }
+
+    /**
+     * 根据phone查询条件查询单个值
+     */
+    async fn get_by_phone(&self, phone: String) -> Result<Dto> {
+        let rb = APPLICATION_CONTEXT.get::<Rbatis>();
+        let wrapper = rb.new_wrapper().eq("phone", phone);
+        let detail: Entity = rb.fetch_by_wrapper(wrapper).await?;
+        let vo = Dto::from(detail);
+        return Ok(vo);
+    }
+    /**
+     * 根据account查询条件查询单个值
+     */
+    async fn get_by_account(&self, account: String) -> Result<Dto> {
+        let rb = APPLICATION_CONTEXT.get::<Rbatis>();
+        let wrapper = rb.new_wrapper().eq("account", account);
+        let detail: Entity = rb.fetch_by_wrapper(wrapper).await?;
+        let vo = Dto::from(detail);
+        return Ok(vo);
+    }
     /**
      * 保存实体
      */

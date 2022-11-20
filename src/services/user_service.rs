@@ -1,13 +1,11 @@
 use crate::models::{
-    dto::user_dto::{UserDTO},
-    entitys::user_entity::{User},
+    dto::user_dto::UserDTO,
+    entitys::user_entity::User,
     request::UserQuery,
 };
+use crate::utils::error::Error;
 use crate::utils::error::Result;
 use rbatis::rbatis::Rbatis;
-use rbatis::DateNative;
-use crate::models::UserType;
-use crate::utils::password_encoder::PasswordEncoder;
 use crate::{crud::crud_service::CrudService, APPLICATION_CONTEXT};
 
 pub struct UserService;
@@ -20,10 +18,21 @@ impl Default for UserService {
 impl UserService {
     //根据id查询用户
     pub async fn get_user_by_id(&self, id: String) -> Result<UserDTO> {
-        let user_info = self.get(id.clone()).await.unwrap();
+        let user_info = self.get(id.clone()).await?;
         return Ok(user_info);
     }
 
+    //根据phone查询用户
+    pub async fn get_user_by_phone(&self, phone: String) -> Result<UserDTO> {
+        let user_info = self.get_by_phone(phone.clone()).await?;
+        
+        return Ok(user_info);
+    }
+    //根据account查询用户
+    pub async fn get_user_by_account(&self, account: String) -> Result<UserDTO> {
+        let user_info = self.get_by_account(account.clone()).await?;
+        return Ok(user_info);
+    }
     //根据id删除用户
     pub async fn delete_user_by_id(&self, id: String) {
         let user_info = self.get(id.clone()).await.unwrap();
