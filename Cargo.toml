@@ -40,6 +40,6 @@ redis = { version = "0.22.1", features = ["tokio"] }
 #sqlparse sql解析器
 sqlparser = "0.15.0"
 base64 = "0.13.1"
-random = "0.13.2"
+random-number = "0.1.8"
 #配置微信
 wx = { path = "./wx" }

@@ -219,7 +219,7 @@ pub async fn send_phone_sms(Json(phoneinfo): Json<SendPhoneDTO>) -> impl IntoRes
         return RespVO::<()>::from_error(&Error::E(e.to_string())).resp_json();
     }
     if let Ok(code) = cache_service
-    .get_string(&format!("_captch:phone_{}", &phoneinfo.phone().clone().unwrap()))
+    .get_string(&format!("_captch:uuid_{}", &phoneinfo.uuid().clone().unwrap()))
     .await
     {
         if !code.eq(&phoneinfo.vcode().clone().unwrap()) {

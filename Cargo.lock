@@ -2302,10 +2302,26 @@ dependencies = [
 ]
 
 [[package]]
-name = "random"
-version = "0.13.2"
+name = "random-number"
+version = "0.1.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "474c42c904f04dfe2a595a02f71e1a0e5e92ffb5761cc9a4c02140b93b8dd504"
+checksum = "3a3da5cbb4c27c5150c03a54a7e4745437cd90f9e329ae657c0b889a144bb7be"
+dependencies = [
+ "proc-macro-hack",
+ "rand 0.8.5",
+ "random-number-macro-impl",
+]
+
+[[package]]
+name = "random-number-macro-impl"
+version = "0.1.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "99f50024fe705be34d953ca47f4617ce3a665caa1011f14a48e6a8a6ec911f0f"
+dependencies = [
+ "proc-macro-hack",
+ "quote",
+ "syn",
+]
 
 [[package]]
 name = "rbatis"
@@ -3694,7 +3710,7 @@ dependencies = [
  "lazy_static",
  "log",
  "md5",
- "random",
+ "random-number",
  "rbatis",
  "rbson",
  "redis",
